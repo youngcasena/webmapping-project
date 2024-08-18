@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cancer Probability in Kenyan Towns</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cancer Probability in Kenyan Towns</h1>
+    <div id="map"></div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map and set its view to Kenya
+        var map = L.map('map').setView([-1.286389, 36.817223], 7);
+
+        // Add a tile layer to the map
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Cancer probability data for eight towns
+        var towns = [
+            { name: "Nairobi", coords: [-1.286389, 36.817223], probability: 0.05 },
+            { name: "Mombasa", coords: [-4.043477, 39.668207], probability: 0.03 },
+            { name: "Kisumu", coords: [-0.091702, 34.768013], probability: 0.04 },
+            { name: "Nakuru", coords: [-0.303098, 36.080025], probability: 0.035 },
+            { name: "Eldoret", coords: [0.514277, 35.269780], probability: 0.025 },
+            { name: "Nyeri", coords: [0.416197, 36.951888], probability: 0.02 },
+            { name: "Thika", coords: [-1.033333, 37.069444], probability: 0.015 },
+            { name: "Machakos", coords: [-1.517071, 37.263415], probability: 0.012 }
+        ];
+
+        // Scaling factor to adjust circle sizes
+        var scaleFactor = 500000;
+
+        // Add proportional circles to the map
+        towns.forEach(function(town) {
+            L.circle(town.coords, {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: town.probability * scaleFactor
+            }).bindPopup('<b>' + town.name + '</b><br>Probability: ' + (town.probability * 100) + '%')
+            .addTo(map);
+        });
+    </script>
+</body>
+</html>
